@@ -37,6 +37,33 @@ function App() {
       .catch(err => console.error(err))
   }
 
+  const handleComplete = (id) => {
+    fetch(`http://localhost:8080/tasks/${id}/complete`, {
+      method: 'PUT',
+      headers: { Authorization: authHeader }
+    })
+      .then(() => fetchTasks())
+      .catch(err => console.error(err))
+  }
+
+  const handleUndo = (id) => {
+  fetch(`http://localhost:8080/tasks/${id}/undo`, {
+    method: 'PUT',
+    headers: { Authorization: authHeader }
+  })
+    .then(() => fetchTasks())
+    .catch(err => console.error(err))
+  }
+
+  const handleDelete = (id) => {
+    fetch(`http://localhost:8080/tasks/${id}`, {
+      method: 'DELETE',
+      headers: { Authorization: authHeader }
+    })
+      .then(() => fetchTasks())
+      .catch(err => console.error(err))
+  }
+
   return (
     <div>
       <h1>Task Manager</h1>
@@ -55,6 +82,12 @@ function App() {
         {tasks.map(task => (
           <li key={task.id}>
             {task.title} — {task.status}
+            {task.status !== 'DONE' ? (
+              <button onClick={() => handleComplete(task.id)}>Complete</button>
+            ) : (
+              <button onClick={() => handleUndo(task.id)}>Undo</button>
+            )}
+            <button onClick={() => handleDelete(task.id)}>Delete</button>
           </li>
         ))}
       </ul>
