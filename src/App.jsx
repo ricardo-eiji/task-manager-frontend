@@ -65,32 +65,62 @@ function App() {
   }
 
   return (
-    <div>
-      <h1>Task Manager</h1>
+    <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4">
+      <div className="bg-white rounded-lg shadow-md p-6 w-full max-w-md">
+        <h1 className="text-2xl font-bold text-gray-800 mb-4">Task Manager</h1>
 
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          placeholder="New task title"
-        />
-        <button type="submit">Add Task</button>
-      </form>
+        <form onSubmit={handleSubmit} className="flex gap-2 mb-6">
+          <input
+            type="text"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            placeholder="New task title"
+            className="flex-1 border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+          />
+          <button
+            type="submit"
+            className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+          >
+            Add
+          </button>
+        </form>
 
-      <ul>
-        {tasks.map(task => (
-          <li key={task.id}>
-            {task.title} — {task.status}
-            {task.status !== 'DONE' ? (
-              <button onClick={() => handleComplete(task.id)}>Complete</button>
-            ) : (
-              <button onClick={() => handleUndo(task.id)}>Undo</button>
-            )}
-            <button onClick={() => handleDelete(task.id)}>Delete</button>
-          </li>
-        ))}
-      </ul>
+        <ul className="space-y-2">
+          {tasks.map(task => (
+            <li
+              key={task.id}
+              className="flex items-center justify-between border border-gray-200 rounded px-3 py-2"
+            >
+              <span className={task.status === 'DONE' ? 'line-through text-gray-400' : 'text-gray-800'}>
+                {task.title}
+              </span>
+              <div className="flex gap-2">
+                {task.status !== 'DONE' ? (
+                  <button
+                    onClick={() => handleComplete(task.id)}
+                    className="text-sm bg-green-500 text-white px-2 py-1 rounded hover:bg-green-600"
+                  >
+                    Complete
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => handleUndo(task.id)}
+                    className="text-sm bg-yellow-500 text-white px-2 py-1 rounded hover:bg-yellow-600"
+                  >
+                    Undo
+                  </button>
+                )}
+                <button
+                  onClick={() => handleDelete(task.id)}
+                  className="text-sm bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600"
+                >
+                  Delete
+                </button>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   )
 }
