@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react'
 
+const API_URL = import.meta.env.VITE_API_URL
+
 function App() {
   const [tasks, setTasks] = useState([])
   const [title, setTitle] = useState('')
@@ -7,7 +9,7 @@ function App() {
   const authHeader = 'Basic ' + btoa('admin:admin123')
 
   const fetchTasks = () => {
-    fetch('http://localhost:8080/tasks', {
+    fetch(`${API_URL}/tasks`, {
       headers: { Authorization: authHeader }
     })
       .then(res => res.json())
@@ -21,7 +23,7 @@ function App() {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    fetch('http://localhost:8080/tasks', {
+    fetch(`${API_URL}/tasks`, {
       method: 'POST',
       headers: {
         Authorization: authHeader,
@@ -38,7 +40,7 @@ function App() {
   }
 
   const handleComplete = (id) => {
-    fetch(`http://localhost:8080/tasks/${id}/complete`, {
+    fetch(`${API_URL}/tasks/${id}/complete`, {
       method: 'PUT',
       headers: { Authorization: authHeader }
     })
@@ -47,16 +49,16 @@ function App() {
   }
 
   const handleUndo = (id) => {
-  fetch(`http://localhost:8080/tasks/${id}/undo`, {
-    method: 'PUT',
-    headers: { Authorization: authHeader }
-  })
-    .then(() => fetchTasks())
-    .catch(err => console.error(err))
+    fetch(`${API_URL}/tasks/${id}/undo`, {
+      method: 'PUT',
+      headers: { Authorization: authHeader }
+    })
+      .then(() => fetchTasks())
+      .catch(err => console.error(err))
   }
 
   const handleDelete = (id) => {
-    fetch(`http://localhost:8080/tasks/${id}`, {
+    fetch(`${API_URL}/tasks/${id}`, {
       method: 'DELETE',
       headers: { Authorization: authHeader }
     })
